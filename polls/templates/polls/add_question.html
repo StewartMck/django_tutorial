@@ -7,11 +7,10 @@
     <title>Document</title>
 </head>
 <body>
-    <form method="post">{% csrf_token %}
-        <!-- {{ form.as_p }} -->
-        Question<input type="text" name="question_text">
-        Date<input type="date" name="pub_date">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
         <input type="submit" value="Save">
     </form>
 </body>
-</html>
+</html> 

@@ -4,6 +4,8 @@ from django.urls import reverse, reverse_lazy
 from django.views import generic
 from django.views.generic.edit import DeleteView, CreateView
 from .models import Question, Choice
+from .forms import QuestionForm
+
 
 # Without using generic views
 
@@ -27,6 +29,7 @@ from .models import Question, Choice
 
 #Using generic Views
 class IndexView(generic.ListView):
+    form = QuestionForm
     template_name='polls/index.html'
     context_object_name = 'latest_question_list'
 
@@ -61,10 +64,27 @@ class QuestionDelete(DeleteView):
 
 class QuestionCreate(CreateView):
     model = Question
+    form_class = QuestionForm
     template_name = 'polls/add_question.html'
-    fields = ['question_text', 'pub_date']
     success_url = reverse_lazy('polls:index')
 
+    def filter_choices(self, form):
+        choices =  {
+            'choice1': form.cleaned_data['choice1'],
+            'choice2': form.cleaned_data['choice2'],
+            'choice3': form.cleaned_data['choice3'],
+            'choice4': form.cleaned_data['choice4']
+        }
+        return  {key: value for key, value in choices.items() if value != ""}
+        
+    def form_valid(self, form):
+        if form.is_valid:
+            question = form.save()
+            print('form', form)
+            for choice in self.filter_choices(form).values():
+               Choice(question=question, choice_text=choice).save()
+
+        return super().form_valid(form)
 
 
 def vote(request, question_id):
