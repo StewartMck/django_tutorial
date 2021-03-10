@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.views import generic
-from django.views.generic.edit import DeleteView
+from django.views.generic.edit import DeleteView, CreateView
 from .models import Question, Choice
 
 # Without using generic views
@@ -57,7 +57,16 @@ class QuestionDelete(DeleteView):
         context['total_votes'] = totalVotes
         print('new context', context)
         return context
-    
+
+
+class QuestionCreate(CreateView):
+    model = Question
+    template_name = 'polls/add_question.html'
+    fields = ['question_text', 'pub_date']
+    success_url = reverse_lazy('polls:index')
+
+
+
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     try:
