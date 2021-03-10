@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views import generic
+from django.views.generic.edit import DeleteView
 from .models import Question, Choice
 
 # Without using generic views
@@ -40,6 +41,23 @@ class ResultsView(generic.DetailView):
     model = Question
     template_name = 'polls/results.html'
 
+class QuestionDelete(DeleteView):
+    model = Question
+    template_name = 'polls/confirm_delete.html'
+    success_url = reverse_lazy('polls:index')
+
+    def get_context_data(self, **kwargs):
+        context = super(QuestionDelete, self).get_context_data(**kwargs)
+        print('context', context)
+        id = self.kwargs.get('pk')
+        votes = Choice.objects.filter(question_id=id).values('votes')
+        totalVotes = 0
+        for vote in votes:
+            totalVotes += vote['votes']
+        context['total_votes'] = totalVotes
+        print('new context', context)
+        return context
+    
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     try:
