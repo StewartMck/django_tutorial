@@ -1,16 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delete Question</title>
-</head>
-<body>
-    <form method="post">{% csrf_token %}
-        <p>Are you sure you want to delete "{{ object }}"?</p>
-        <p>{{ total_votes }} votes will also be deleted!</p>
-        <input type="submit" value="Confirm">
-    </form>
-</body>
-</html>
+{% extends 'polls/base.html' %}
+
+{% block content %}
+
+<form method="post">{% csrf_token %}
+    <div class="p-3 mb-2 bg-warning text-dark">
+        <p class="font-weight-bold">Are you sure you want to delete "{{ object }}"?</p>
+        <p class="font-weight-bold">{{ total_votes }} vote{{ total_votes|pluralize }} will also be deleted!</p>
+        <input class="btn btn-danger" type="submit" value="Confirm">
+    </div>
+</form>
+
+{% endblock content %}

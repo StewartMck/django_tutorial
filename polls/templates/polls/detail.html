@@ -1,23 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Details</title>
-</head>
-<body>
-    <h1>{{ question.question_text }}</h1>
+{% extends 'polls/base.html' %}
 
-    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-    
+{% block content %}
+
+<div class='container'>
+    <p class='text-center display-4'>{{ question.question_text }}
+    <p>
+
+        {% if error_message %}
+    <p class="p-3 mb-2 bg-danger text-white"><strong>{{ error_message }}</strong></p>{% endif %}
+
     <form action="{% url 'polls:vote' question.id %}" method="post">
-    {% csrf_token %}
-    {% for choice in question.choice_set.all %}
-        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
-        <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
-    {% endfor %}
-    <input type="submit" value="Vote">
+        {% csrf_token %}
+        {% for choice in question.choice_set.all %}
+        <table class="table">
+            <tr>
+                <th scope="row">
+                    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+                    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label>
+                </th>
+            </tr>
+        </table>
+        {% endfor %}
+        <input class="btn btn-success" type="submit" value="Vote?">
     </form>
-</body>
-</html>
+</div>
+
+{% endblock content %}

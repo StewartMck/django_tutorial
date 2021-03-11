@@ -1,23 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'polls/base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+{% block content %}
 
-<body>
-    <h1>{{ question.question_text }}</h1>
+<div class="container">
+<h1 class='text-center'>{{ question.question_text }}</h1>
+<table class="table">
+    {% for choice in question.choice_set.all %}
+    <tr>
+        <th scope="row"> {{ choice.choice_text }}
+        <th scope="row"> {{ choice.votes }} vote{{ choice.votes|pluralize }}
+        </th>
+    </tr>
+    {% endfor %}
+</table>
+    <a class="btn btn-success" href="{% url 'polls:detail' question.id %}">Vote again?</a>
 
-    <ul>
-        {% for choice in question.choice_set.all %}
-        <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
-        {% endfor %}
-    </ul>
-
-    <a href="{% url 'polls:detail' question.id %}">Vote again?</a>
-</body>
-
-</html>
+    {% endblock content %}

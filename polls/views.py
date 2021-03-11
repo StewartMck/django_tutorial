@@ -61,7 +61,6 @@ class QuestionDelete(DeleteView):
         print('new context', context)
         return context
 
-
 class QuestionCreate(CreateView):
     model = Question
     form_class = QuestionForm
@@ -80,12 +79,10 @@ class QuestionCreate(CreateView):
     def form_valid(self, form):
         if form.is_valid:
             question = form.save()
-            print('form', form)
             for choice in self.filter_choices(form).values():
                Choice(question=question, choice_text=choice).save()
-
         return super().form_valid(form)
-
+        
 
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
@@ -94,7 +91,7 @@ def vote(request, question_id):
     except (KeyError, Choice.DoesNotExist):
         return render(request, 'polls/detail.html', {
             'question': question,
-            'error_message': "You Didn't Select A Choice!",
+            'error_message': "No Choice Selected!",
         })
     else:
         selected_choice.votes += 1
