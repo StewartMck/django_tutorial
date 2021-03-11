@@ -7,6 +7,7 @@
         <p class="font-weight-bold">Are you sure you want to delete "{{ object }}"?</p>
         <p class="font-weight-bold">{{ total_votes }} vote{{ total_votes|pluralize }} will also be deleted!</p>
         <input class="btn btn-danger" type="submit" value="Confirm">
+        <button onclick="window.history.back();" class="btn btn-info" type="button">Cancel</button>
     </div>
 </form>
 

@@ -6,7 +6,7 @@
 <div class="container">
     <br>
     {% for question in latest_question_list %}
-    <div class="row" >
+    <div class="row">
         <div class="col-8">
             <a class="badge badge-info" href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a>
         </div>

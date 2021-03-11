@@ -6,7 +6,6 @@ from django.views.generic.edit import DeleteView, CreateView
 from .models import Question, Choice
 from .forms import QuestionForm
 
-
 # Without using generic views
 
 # def index(request):
@@ -51,14 +50,12 @@ class QuestionDelete(DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super(QuestionDelete, self).get_context_data(**kwargs)
-        print('context', context)
         id = self.kwargs.get('pk')
         votes = Choice.objects.filter(question_id=id).values('votes')
         totalVotes = 0
         for vote in votes:
             totalVotes += vote['votes']
         context['total_votes'] = totalVotes
-        print('new context', context)
         return context
 
 class QuestionCreate(CreateView):

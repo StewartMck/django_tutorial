@@ -3,16 +3,16 @@
 {% block content %}
 
 <div class="container">
-<h1 class='text-center'>{{ question.question_text }}</h1>
-<table class="table">
-    {% for choice in question.choice_set.all %}
-    <tr>
-        <th scope="row"> {{ choice.choice_text }}
-        <th scope="row"> {{ choice.votes }} vote{{ choice.votes|pluralize }}
-        </th>
-    </tr>
-    {% endfor %}
-</table>
+    <h1 class='text-center display-4'>{{ question.question_text }}</h1>
+    <table class="table">
+        {% for choice in question.choice_set.all %}
+        <tr>
+            <th scope="row"> {{ choice.choice_text }}
+            <th scope="row"> {{ choice.votes }} vote{{ choice.votes|pluralize }}
+            </th>
+        </tr>
+        {% endfor %}
+    </table>
     <a class="btn btn-success" href="{% url 'polls:detail' question.id %}">Vote again?</a>
 
     {% endblock content %}
