@@ -1,6 +1,6 @@
 
-### Django Tutorial 
-## This is part of the Django Docs Tutorial including functionality for viewers to add / remove polls.
+## Django Tutorial 
+#### This is part of the Django Docs Tutorial including functionality for viewers to add / remove polls.
 
 <br>
 
